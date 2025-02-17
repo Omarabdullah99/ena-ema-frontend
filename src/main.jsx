@@ -8,6 +8,10 @@ import {
 } from "react-router-dom";
 import Home from './pages/Home.jsx';
 import Products from './pages/Products.jsx';
+import store from './redux/store.js';
+import {Provider} from 'react-redux'
+import Register from './pages/Register.jsx';
+
 
 
 const router = createBrowserRouter([
@@ -24,6 +28,12 @@ const router = createBrowserRouter([
         element:<Products />
       },
       
+      {
+        path:"/register",
+        element:<Register />
+      },
+
+      
       
 
     
@@ -36,6 +46,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+     <Provider store={store}>
    <RouterProvider router={router} />
+   </Provider>
   </StrictMode>,
 )
