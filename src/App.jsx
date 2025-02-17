@@ -1,12 +1,17 @@
 import React from 'react'
+import { Outlet } from 'react-router-dom'
+import Navbar from './components/Navbar'
+import Footer from './components/Footer'
+
 
 const App = () => {
   return (
-    <div >
-      
-      <h1 className='text-center text-blue-500 font-bold text-6xl'>App</h1>
-      
-      </div>
+    <>
+    <Navbar />
+    <Outlet />
+    <Footer />
+   
+    </>
   )
 }
 
