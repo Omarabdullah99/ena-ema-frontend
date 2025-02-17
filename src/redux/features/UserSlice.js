@@ -26,6 +26,15 @@ export const loginUserAsync = createAsyncThunk(
   }
 );
 
+export const fetchUserByIdAsync=createAsyncThunk(
+  'user/fetchUserById',
+  async(userId)=>{
+    const response= await api.findUserId(userId)
+    return response.data
+
+  }
+)
+
 // User Slice
 const userSlice = createSlice({
   name: 'users',
@@ -34,6 +43,7 @@ const userSlice = createSlice({
     error: '',
     loading: false,
     allusers: [],
+    userByIdDetails:null,
   },
   reducers: {
     //! Register/Login করার পর refresh করলে data মুছে যায়, সেটার সমাধান
@@ -76,11 +86,29 @@ const userSlice = createSlice({
       .addCase(createUserAsync.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+
+      //fetchUserById logic
+      .addCase(fetchUserByIdAsync.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchUserByIdAsync.fulfilled, (state, action) => {
+        state.loading = false;
+        state.userByIdDetails = action.payload;
+      })
+      .addCase(fetchUserByIdAsync.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
+     
+     
+
+        
   },
 });
 
 export const { setUser, setLogout } = userSlice.actions;
 export const selectLoggedInUser = (state) => state.users.user;
+export const selectedUserDetails=(state)=> state.users.userByIdDetails;
 export const selectError = (state) => state.users.error;
 export default userSlice.reducer;
