@@ -9,3 +9,39 @@ export const signUp= (formValue) => API.post("/users/createUser", formValue) //*
 export const signIn= (formValue) => API.post("/users/login", formValue) //*like Register
 
 export  const findUserId=(userId)=> API.get(`/users/findUserById/${userId}`)
+
+
+// Fetch products by filters
+export const fetchProductsByFilters = (filter, sort, pagination) => {
+    let queryString = "";
+    
+    
+    for (let key in filter) {
+      const categoryValues = filter[key];
+      if (categoryValues.length) {
+        const lastCategoryValue = categoryValues[categoryValues.length - 1];
+        queryString += `${key}=${lastCategoryValue}&`;
+      }
+    }
+    
+   
+    for (let key in sort) {
+      queryString += `${key}=${sort[key]}&`;
+    }
+  
+    
+    for (let key in pagination) {
+      queryString += `${key}=${pagination[key]}&`;
+    }
+  
+    return API.get(`/products/fetchProducts?${queryString}`).then(response => {
+
+      const totalItems = response.headers.get('X-Total-Count');
+      console.log('total-res',totalItems)
+      return { data: { products: response.data, totalItems: +totalItems } };
+    });
+  };
+
+  export const fetchCategories=()=>API.get('/category/allCategory')
+
+  export const fetchBrands=()=>API.get("/brand/allbrands")
