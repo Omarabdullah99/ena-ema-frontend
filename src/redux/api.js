@@ -45,3 +45,4 @@ export const fetchProductById = (productId) => API.get(`/products/productById/${
 // AddToCart Related api
 export const createCart=(data)=> API.post('/cart/createCart',data)
 export const getCartItemByUserId=(userId)=> API.get(`/cart/cartByUserId/${userId}`)
+export const deleteCart=(cartId)=>API.delete(`/cart/deleteCart/${cartId}`)

@@ -9,7 +9,8 @@ export default function Modal({title,message,dangerOption,cancelOption, dangerAc
 
   const handleDanger = ()=>{
     dangerAction()
-    setOpen(false)
+    // setOpen(false)
+    cancelAction(); // Modal বন্ধ করার জন্য
   }
 
   const handleCancel = ()=>{

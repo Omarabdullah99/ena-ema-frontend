@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
 import {
 
+  deleteCartItemAsync,
   selectedCartItemByUserId,
   selectedCartStatus,
 } from "../redux/features/CartSlice";
@@ -38,8 +39,9 @@ export default function Cart() {
   };
 
   const handleRemove = ( id) => {
-    console.log('id', id)
-    // dispatch(deleteCartItemAsync(id));
+    console.log('delete cart id', id)
+    dispatch(deleteCartItemAsync(id));
+    setOpenModal(null)
   };
 
   if (cartStatus == "loading") {
@@ -109,7 +111,7 @@ export default function Cart() {
                             message="Are you sure you want to delete this Cart item?"
                             dangerOption="Delete"
                             cancelOption="Cancel"
-                            dangerAction={() => handleRemove(product?.id)} // e পাস করো
+                            dangerAction={() => handleRemove(product?._id)} // e পাস করো
                             cancelAction={() => setOpenModal(null)}
                             showModal={openModal === product?.id}
                           />

@@ -25,6 +25,15 @@ export const getCartItemByUserIdAsync=createAsyncThunk(
     }
 )
 
+export const deleteCartItemAsync=createAsyncThunk(
+  'cart/deleteCartItem',
+  async(cartId)=>{
+      const response= await api.deleteCart(cartId)
+      return response.data
+
+  }
+)
+
 export const cartSlice = createSlice({
   name: "cart",
   initialState,
@@ -44,6 +53,15 @@ export const cartSlice = createSlice({
         state.status= 'fulfiled',
         state.item = action.payload
     })
+    .addCase(deleteCartItemAsync.pending,(state)=>{
+      state.status='loading'
+  })
+  .addCase(deleteCartItemAsync.fulfilled, (state,action)=>{
+    console.log('delete action', action.payload)
+      state.status='fulfilled';
+      const index= state.item.findIndex(item => item._id === action.payload._id)
+      state.item.splice(index,1)
+  })
   },
 });
 
