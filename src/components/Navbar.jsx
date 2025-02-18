@@ -28,17 +28,7 @@ const user = {
   imageUrl:
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqafzhnwwYzuOTjTlaYMeQ7hxQLy_Wq8dnQg&s",
 };
-const navigation = [
-  { name: "Dashboard", link: "#", user: true },
-  { name: "Team", link: "#", user: true },
-  { name: "Admin", link: "/admin", admin: true },
-  { name: "Orders", link: "/admin/orders", admin: true },
-];
-const userNavigation = [
-  { name: "Your Profile", link: "/my-profile" },
-  { name: "My Orders", link: "/my-orders" },
-  { name: "Sign out", link: "/logout" },
-];
+
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -47,7 +37,8 @@ function classNames(...classes) {
 const Navbar = ({ children }) => {
   const userInfo= useSelector(selectLoggedInUser)
   const userDetails= useSelector(selectedUserDetails)
-  console.log('userDetails',userDetails)
+  // console.log('userDetails',userDetails)
+  // console.log('userInfo',userInfo)
 
   useEffect(() => {
     if (userInfo?.result?._id) {
@@ -55,6 +46,18 @@ const Navbar = ({ children }) => {
     }
   }, [userInfo?.result?._id]);
   
+
+  const navigation = [
+    { name: "Dashboard", link: "#", user: true },
+    { name: "Team", link: "#", user: true },
+    { name: "Admin", link: "/admin", admin: true },
+    { name: "Orders", link: "/admin/orders", admin: true },
+  ];
+  const userNavigation = [
+    { name: "Your Profile", link: "/my-profile" },
+    { name: "My Orders", link: "/my-orders" },
+    { name: "Sign out", link: "/logout" },
+  ];
   const selectedCartItem =4
   const dispatch = useDispatch();
   const navigate=useNavigate()
