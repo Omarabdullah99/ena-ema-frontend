@@ -46,3 +46,5 @@ export const fetchProductById = (productId) => API.get(`/products/productById/${
 export const createCart=(data)=> API.post('/cart/createCart',data)
 export const getCartItemByUserId=(userId)=> API.get(`/cart/cartByUserId/${userId}`)
 export const deleteCart=(cartId)=>API.delete(`/cart/deleteCart/${cartId}`)
+export const updateCartItem=(update)=> API.put(`/cart/updateCart/${update.id}`, update)
+

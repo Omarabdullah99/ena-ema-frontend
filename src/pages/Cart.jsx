@@ -7,6 +7,7 @@ import {
   deleteCartItemAsync,
   selectedCartItemByUserId,
   selectedCartStatus,
+  updateCartItemAsync,
 } from "../redux/features/CartSlice";
 import Modal from "../common/Modal";
 
@@ -31,10 +32,11 @@ export default function Cart() {
   const [openModal, setOpenModal] = useState(null);
 
   const handleQuantity = (e, product) => {
-    // e.preventDefault();
-    // const quantity = Number(e.target.value);
-    // // console.log('value', e.target.value)
-    // dispatch(updateCartItemAsync({ id: product.id, quantity, product: product.product.id }));
+    // console.log('product',product)
+    e.preventDefault();
+    const quantity = Number(e.target.value);
+    // console.log('value', e.target.value)
+    dispatch(updateCartItemAsync({ id: product._id, quantity}));
     
   };
 
