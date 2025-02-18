@@ -4,8 +4,9 @@ import { fetchProductByIdAsync, selectedProduct } from "../redux/features/Produc
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { selectLoggedInUser } from "../redux/features/UserSlice";
-// import { createCartByAsync, selectedCartItemByUserId } from "../cart/cartSlice";
+
 import { toast } from "react-toastify";
+import { createCartByAsync, selectedCartItemByUserId } from "../redux/features/CartSlice";
 
 
 
@@ -28,14 +29,14 @@ const ProductDetails = () => {
   const params = useParams();
   const dispatch = useDispatch();
   const user = useSelector(selectLoggedInUser);
-  // console.log('details user',user)
+  console.log('details user',user)
   useEffect(() => {
     dispatch(fetchProductByIdAsync(params?.id));
   }, [dispatch, params?.id]);
 
   const productById = useSelector(selectedProduct);
-  // const selectedCardByUserId = useSelector(selectedCartItemByUserId);
-  // console.log('useridcart check',selectedCardByUserId)
+  const selectedCardByUserId = useSelector(selectedCartItemByUserId);
+  // console.log('product cart check',selectedCardByUserId)
   if (!productById) {
     return (
       <div className="flex justify-center items-center min-h-screen">
@@ -47,28 +48,27 @@ const ProductDetails = () => {
   }
 
   const product = productById;
-  // console.log('detil product',product)
+  console.log('detil product',product)
 
-  // const handleCart = (e) => {
-  //   e.preventDefault();
-  //   if (
-  //     selectedCardByUserId.findIndex((item) => item.product.id === product.id) <
-  //     0
-  //   ) {
-  //     dispatch(
-  //       createCartByAsync({
-  //         product: product.id,
-  //         quantity: 1,
-  //         user: user?.user?.id,
-  //       })
-  //     );
-  //     //this message will provide backend
-  //     toast.success("Cart Add Successfully!"); // সফল ম্যাসেজ
-  //   } else {
-  //     //this message will provide backend
-  //     toast.error("This item already added!");
-  //   }
-  // };
+  const handleCart = (e) => {
+    e.preventDefault();
+    if (
+      selectedCardByUserId.findIndex((item) => item.productID === product._id) <
+      0
+    ) {
+      dispatch(
+        createCartByAsync({
+          productID: product._id,
+          userID: user?.result?._id,
+        })
+      );
+      //this message will provide backend
+      toast.success("Cart Add Successfully!"); // সফল ম্যাসেজ
+    } else {
+      //this message will provide backend
+      toast.error("This item already added!");
+    }
+  };
 
   return (
     <>
@@ -129,7 +129,7 @@ const ProductDetails = () => {
                   <button
                     type="submit"
                     className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                    // onClick={handleCart}
+                    onClick={handleCart}
                   >
                     Add To Cart
                   </button>

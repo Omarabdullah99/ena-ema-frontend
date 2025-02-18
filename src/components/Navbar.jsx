@@ -22,12 +22,15 @@ import { useDispatch, useSelector } from "react-redux";
 
 
 import {fetchUserByIdAsync, selectedUserDetails, selectLoggedInUser, setLogout } from "../redux/features/UserSlice";
+import { getCartItemByUserIdAsync, selectedCartItemByUserId } from "../redux/features/CartSlice";
 const user = {
   name: "Tom Cook",
   email: "tom@example.com",
   imageUrl:
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqafzhnwwYzuOTjTlaYMeQ7hxQLy_Wq8dnQg&s",
 };
+
+
 
 
 function classNames(...classes) {
@@ -37,14 +40,24 @@ function classNames(...classes) {
 const Navbar = ({ children }) => {
   const userInfo= useSelector(selectLoggedInUser)
   const userDetails= useSelector(selectedUserDetails)
-  // console.log('userDetails',userDetails)
-  // console.log('userInfo',userInfo)
+  const users= JSON.parse(localStorage.getItem("ecoomerce"))
+
+  const selectedCartItem = useSelector(selectedCartItemByUserId);
+  // console.log('navbar cartitem',selectedCartItem)
 
   useEffect(() => {
     if (userInfo?.result?._id) {
       dispatch(fetchUserByIdAsync(userInfo?.result?._id));
     }
   }, [userInfo?.result?._id]);
+
+  useEffect(() => {
+    if (users?.result?._id) {
+      dispatch(getCartItemByUserIdAsync(users?.result?._id));
+    }
+  }, [users?.result?._id]);
+
+
   
 
   const navigation = [
@@ -58,7 +71,7 @@ const Navbar = ({ children }) => {
     { name: "My Orders", link: "/my-orders" },
     { name: "Sign out", link: "/logout" },
   ];
-  const selectedCartItem =4
+  
   const dispatch = useDispatch();
   const navigate=useNavigate()
 
@@ -123,7 +136,7 @@ const Navbar = ({ children }) => {
                     </button>
                   </Link>
                   <span className="inline-flex items-center rounded-md mb-7 -ml-3 bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
-                    {selectedCartItem ? selectedCartItem : 0}
+                    {selectedCartItem ? selectedCartItem?.length : 0}
                   </span>
 
                   {/* Profile dropdown */}

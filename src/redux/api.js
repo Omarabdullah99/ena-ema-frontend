@@ -38,6 +38,10 @@ export const fetchProductsByFilters = (filter, sort, pagination) => {
 };
 
 export const fetchCategories = () => API.get("/category/allCategory");
-
 export const fetchBrands = () => API.get("/brand/allbrands");
 export const fetchProductById = (productId) => API.get(`/products/productById/${productId}`);
+
+
+// AddToCart Related api
+export const createCart=(data)=> API.post('/cart/createCart',data)
+export const getCartItemByUserId=(userId)=> API.get(`/cart/cartByUserId/${userId}`)
