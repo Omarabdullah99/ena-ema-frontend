@@ -14,6 +14,9 @@ import Cart from "./pages/Cart.jsx";
 import Checkout from "./pages/CheckoutPage.jsx";
 import OrderSuccessPage from "./pages/OrderSuccess.jsx";
 import MyOrders from "./pages/MyOrder.jsx";
+import AdminHome from "./pages/Admin/AdminHome.jsx";
+import { ProtectedAdmin } from "./protected/AdminProtected.jsx";
+import AdminProductDetails from "./pages/Admin/AdminProductDetails.jsx";
 
 
 const router = createBrowserRouter([
@@ -51,6 +54,21 @@ const router = createBrowserRouter([
         path:"/my-orders",
         element:<MyOrders />
       },
+
+       //admin path link start
+  {
+    path: "/admin",
+    element: (
+      <ProtectedAdmin>
+        <AdminHome></AdminHome>
+      </ProtectedAdmin>
+    ),
+  },
+
+  {
+    path: "/adminproductdetails/:id",
+    element: <AdminProductDetails />,
+  },
 
 
 

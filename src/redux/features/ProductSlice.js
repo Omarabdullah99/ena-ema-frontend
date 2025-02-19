@@ -10,6 +10,8 @@ const initialState = {
   selectedProduct: null,
 };
 
+
+
 export const fetchProductsByFiltersAsync = createAsyncThunk(
   "product/fetchProductsByFilters",
   async ({ filter, sort, pagination }) => {

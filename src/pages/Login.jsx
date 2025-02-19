@@ -12,10 +12,10 @@ export default function Login() {
   } = useForm();
   const dispatch = useDispatch();
   const user = useSelector(selectLoggedInUser);
-  console.log('register',user)
+  // console.log('register',user)
   // console.log('user login.jsx',user)
   const Error = useSelector(selectError);
-  console.log("error check Login.jsx", Error);
+  // console.log("error check Login.jsx", Error);
 
   return (
     <>
