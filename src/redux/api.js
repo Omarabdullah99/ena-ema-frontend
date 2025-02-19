@@ -58,3 +58,20 @@ export const fectOrderByUserId=(userId)=>API.get(`/order/orderByUserId/${userId}
 export const createProduct=(product)=> API.post('/products/createProduct',product)
 export const updateProduct = (update)=> API.patch(`/products/updateProduct/${update.id}`,update)
 
+export const fetchAllOrders=(pagination)=>{
+  let queryString = "";
+
+  for (let key in pagination) {
+    queryString += `${key}=${pagination[key]}&`;
+  }
+
+  return API.get(`/order/allOrder?${queryString}`).then((response) => {
+    const totalItems = response.headers.get("X-Total-Count");
+    // console.log("total-res", totalItems);
+    return { data: { orders: response.data, totalItems: +totalItems } };
+  });
+}
+
+export const updateOrder=(order)=>API.patch(`/order/updateOrderById/${order._id}`,order)
+
+

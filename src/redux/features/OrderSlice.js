@@ -30,22 +30,23 @@ export const fetchOrdersByUserIdAsync=createAsyncThunk(
     }
 )
 
-// export const updateOrderAsync=createAsyncThunk(
-//     'order/updateOrder',
-//     async(order)=>{
-//         const response= await updateOrder(order)
-//         return response.data
-//     }
-// )
+export const updateOrderAsync=createAsyncThunk(
+    'order/updateOrder',
+    async(order)=>{
+        const response= await api.updateOrder(order)
+        return response.data
+    }
+)
 
-// export const fetchAllOrdersAsync=createAsyncThunk(
-//     'order/fetchAllOrders',
-//     async(pagination)=>{
-//         const response= await fetchAllOrders(pagination)
-//         return response.data
-//     },
+export const fetchAllOrdersAsync=createAsyncThunk(
+    'order/fetchAllOrders',
+    async(pagination)=>{
+        const response= await api.fetchAllOrders(pagination)
+        // console.log("order data",response.data)
+        return response.data
+    },
     
-// )
+)
 
 export const ordersSlice= createSlice({
     name:'orders',
@@ -73,23 +74,24 @@ export const ordersSlice= createSlice({
             state.userOrders= action.payload
             // console.log('user slice',action.payload)
           })
-        // .addCase(fetchAllOrdersAsync.pending,(state)=>{
-        //     state.status='loading'
-        // })
-        // .addCase(fetchAllOrdersAsync.fulfilled,(state,action)=>{
-        //     state.status= 'fullfiled'
-        //     state.orders= action.payload.orders
-        //     state.totalItems= action.payload.totalItems
-        // })
+        .addCase(fetchAllOrdersAsync.pending,(state)=>{
+            state.status='loading'
+        })
+        .addCase(fetchAllOrdersAsync.fulfilled,(state,action)=>{
+            state.status= 'fullfiled'
+            // console.log('all order action',action.payload)
+            state.orders= action.payload.orders
+            state.totalItems= action.payload.totalItems
+        })
 
-        // .addCase(updateOrderAsync.pending, (state) => {
-        //     state.status = 'loading';
-        //   })
-        //   .addCase(updateOrderAsync.fulfilled, (state, action) => {
-        //     state.status = 'idle';
-        //     const index =  state.orders.findIndex(order=>order.id===action.payload.id)
-        //     state.orders[index] = action.payload;
-        //   })
+        .addCase(updateOrderAsync.pending, (state) => {
+            state.status = 'loading';
+          })
+          .addCase(updateOrderAsync.fulfilled, (state, action) => {
+            state.status = 'idle';
+            const index =  state.orders.findIndex(order=>order._id===action.payload._id)
+            state.orders[index] = action.payload;
+          })
         
     }
 })

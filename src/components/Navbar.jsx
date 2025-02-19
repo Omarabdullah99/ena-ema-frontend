@@ -23,6 +23,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import {fetchUserByIdAsync, selectedUserDetails, selectLoggedInUser, setLogout } from "../redux/features/UserSlice";
 import { getCartItemByUserIdAsync, selectedCartItemByUserId } from "../redux/features/CartSlice";
+import { fetchAllOrdersAsync, selectAllOrders } from "../redux/features/OrderSlice";
 const user = {
   name: "Tom Cook",
   email: "tom@example.com",
@@ -41,9 +42,12 @@ const Navbar = ({ children }) => {
   const userInfo= useSelector(selectLoggedInUser)
   const userDetails= useSelector(selectedUserDetails)
   const users= JSON.parse(localStorage.getItem("ecoomerce"))
+  const orders= useSelector(selectAllOrders)
+  // console.log('navbar orders',orders)
 
   const selectedCartItem = useSelector(selectedCartItemByUserId);
   // console.log('navbar cartitem',selectedCartItem)
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (userInfo?.result?._id) {
@@ -57,6 +61,9 @@ const Navbar = ({ children }) => {
     }
   }, [users?.result?._id]);
 
+  useEffect(()=>{
+    dispatch(fetchAllOrdersAsync())
+  },[dispatch])
 
   
 
@@ -72,7 +79,7 @@ const Navbar = ({ children }) => {
     { name: "Sign out", link: "/logout" },
   ];
   
-  const dispatch = useDispatch();
+  
   const navigate=useNavigate()
 
 
