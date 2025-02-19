@@ -48,3 +48,7 @@ export const getCartItemByUserId=(userId)=> API.get(`/cart/cartByUserId/${userId
 export const deleteCart=(cartId)=>API.delete(`/cart/deleteCart/${cartId}`)
 export const updateCartItem=(update)=> API.put(`/cart/updateCart/${update.id}`, update)
 
+//Order Related api
+
+export const createOrder=(order)=>API.post('/order/createOrder',order)
+
