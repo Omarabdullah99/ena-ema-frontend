@@ -54,3 +54,7 @@ export const createOrder=(order)=>API.post('/order/createOrder',order)
 export const fectOrderByUserId=(userId)=>API.get(`/order/orderByUserId/${userId}`)
 
 
+//admin related api
+export const createProduct=(product)=> API.post('/products/createProduct',product)
+export const updateProduct = (update)=> API.patch(`/products/updateProduct/${update.id}`,update)
+

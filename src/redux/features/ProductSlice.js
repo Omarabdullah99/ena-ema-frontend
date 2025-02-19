@@ -11,6 +11,22 @@ const initialState = {
 };
 
 
+export const createProductAsync=createAsyncThunk(
+  'product/createproduct',
+  async(product)=>{
+    const response= await api.createProduct(product)
+    return response.data
+  }
+)
+
+export const updateProductAsync=createAsyncThunk(
+  'product/updateProduct',
+  async(update)=>{
+    const response= await api.updateProduct(update)
+    return response.data
+
+  }
+)
 
 export const fetchProductsByFiltersAsync = createAsyncThunk(
   "product/fetchProductsByFilters",
@@ -75,7 +91,24 @@ export const productSlice = createSlice({
       })
       .addCase(fetchAllBrandsAsync.fulfilled, (state, action) => {
         state.brands = action.payload;
-      });
+      })
+      .addCase(createProductAsync.pending, (state)=>{
+        state.status= 'loading'
+    })
+    .addCase(createProductAsync.fulfilled, (state,action)=>{
+        state.status='fulfilled',
+        state.products.push(action.payload)
+    })
+    .addCase(updateProductAsync.pending, (state)=>{
+      state.status= 'loading'
+  })
+  .addCase(updateProductAsync.fulfilled, (state,action)=>{
+      state.status= 'fulfilled';
+      const index= state.products.findIndex(product => product._id === action.payload._id)
+      // console.log('finde index slice.jsx', index)
+      // console.log('action slice.jsx', action.payload)
+      state.products[index]= action.payload
+  })
   },
 });
 
