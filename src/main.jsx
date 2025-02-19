@@ -13,6 +13,7 @@ import ProductDetails from "./pages/ProductDetails.jsx";
 import Cart from "./pages/Cart.jsx";
 import Checkout from "./pages/CheckoutPage.jsx";
 import OrderSuccessPage from "./pages/OrderSuccess.jsx";
+import MyOrders from "./pages/MyOrder.jsx";
 
 
 const router = createBrowserRouter([
@@ -44,6 +45,11 @@ const router = createBrowserRouter([
       {
         path: "/order-success/:id",
         element: <OrderSuccessPage />,
+      },
+
+      {
+        path:"/my-orders",
+        element:<MyOrders />
       },
 
 

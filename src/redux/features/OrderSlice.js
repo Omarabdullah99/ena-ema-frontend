@@ -5,7 +5,8 @@ const initialState={
     status:'idel',
     orders:[],
     totalItems:0,
-    currentOrder:null
+    currentOrder:null,
+    userOrders:[],
 }
 
 export const createOrderAsync=createAsyncThunk(
@@ -16,6 +17,16 @@ export const createOrderAsync=createAsyncThunk(
         return response.data
 
        
+    }
+)
+
+export const fetchOrdersByUserIdAsync=createAsyncThunk(
+    'user/userOrders',
+    async(userId)=>{
+        // console.log('slice user id',userId)
+        const response= await api.fectOrderByUserId(userId)
+        // console.log('slice response',response)
+        return response.data
     }
 )
 
@@ -54,6 +65,14 @@ export const ordersSlice= createSlice({
             state.orders.push(action.payload)
             state.currentOrder= action.payload
         })
+        .addCase(fetchOrdersByUserIdAsync.pending, (state) => {
+            state.status = 'loading';
+          })
+          .addCase(fetchOrdersByUserIdAsync.fulfilled, (state,action)=>{
+            state.status='fullfiled'
+            state.userOrders= action.payload
+            // console.log('user slice',action.payload)
+          })
         // .addCase(fetchAllOrdersAsync.pending,(state)=>{
         //     state.status='loading'
         // })
@@ -80,4 +99,5 @@ export const selectCurrentOrder=(state)=>state.orders.currentOrder
 export const selectOrderStatus=(state)=>state.orders.status
 export const selectAllOrders=(state)=> state.orders.orders
 export const selectTotalItemOrder=(state)=> state.orders.totalItems
+export const selectedUserOrders=(state)=> state.orders.userOrders
 export default ordersSlice.reducer

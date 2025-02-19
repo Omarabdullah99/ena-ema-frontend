@@ -51,4 +51,6 @@ export const updateCartItem=(update)=> API.put(`/cart/updateCart/${update.id}`, 
 //Order Related api
 
 export const createOrder=(order)=>API.post('/order/createOrder',order)
+export const fectOrderByUserId=(userId)=>API.get(`/order/orderByUserId/${userId}`)
+
 
