@@ -57,6 +57,7 @@ export const fectOrderByUserId=(userId)=>API.get(`/order/orderByUserId/${userId}
 //admin related api
 export const createProduct=(product)=> API.post('/products/createProduct',product)
 export const updateProduct = (update)=> API.patch(`/products/updateProduct/${update.id}`,update)
+export const deleteProduct=(id)=> API.delete(`/products/deleteProduct/${id}`)
 
 export const fetchAllOrders=(pagination)=>{
   let queryString = "";

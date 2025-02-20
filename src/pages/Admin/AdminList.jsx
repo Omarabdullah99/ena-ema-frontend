@@ -29,6 +29,7 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
 import {
+  deleteProductAsync,
   fetchAllBrandsAsync,
   fetchAllCategoriesAsync,
   fetchProductsByFiltersAsync,
@@ -137,6 +138,11 @@ const AdminProducList = () => {
       </div>
     ); // ডেটা ফেচ হওয়ার সময় লোডিং মেসেজ দেখান
   }
+
+   const handleRemove = ( id) => {
+      console.log('id', id)
+      dispatch(deleteProductAsync(id));
+    };
 
   return (
     <div className="bg-white">
@@ -396,6 +402,8 @@ const AdminProducList = () => {
                             >
                               Edit Product
                             </Link>
+
+                            <button  onClick={()=>handleRemove(product?._id)} className="mt-6 rounded-md bg-red-400 px-3 py-2 text-sm font-semibold text-white shadow-sm">Delete Product</button>
                           </div>
                         </div>
                       ))}

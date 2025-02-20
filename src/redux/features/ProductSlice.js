@@ -28,6 +28,15 @@ export const updateProductAsync=createAsyncThunk(
   }
 )
 
+export const deleteProductAsync=createAsyncThunk(
+  'product/deleteProduct',
+  async(id)=>{
+      const response= await api.deleteProduct(id)
+      return response.data
+
+  }
+)
+
 export const fetchProductsByFiltersAsync = createAsyncThunk(
   "product/fetchProductsByFilters",
   async ({ filter, sort, pagination }) => {
@@ -109,6 +118,15 @@ export const productSlice = createSlice({
       // console.log('action slice.jsx', action.payload)
       state.products[index]= action.payload
   })
+      .addCase(deleteProductAsync.pending,(state)=>{
+        state.status='loading'
+    })
+    .addCase(deleteProductAsync.fulfilled, (state,action)=>{
+      console.log('delete action', action.payload)
+        state.status='fulfilled';
+        const index= state.products.findIndex(item => item._id === action.payload._id)
+        state.products.splice(index,1)
+    })
   },
 });
 
