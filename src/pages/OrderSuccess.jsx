@@ -28,7 +28,7 @@ const OrderSuccessPage = () => {
           Order Number #{params?.id}
         </h1>
         <p className="mt-6 text-base leading-7 text-gray-600">
-          You can check your order in My Account then  My Orders
+          You can check your  all orders <Link className='text-blue-400' to={"/my-orders"}>My Orders</Link>  
         </p>
         <div className="mt-10 flex items-center justify-center gap-x-6">
           <Link

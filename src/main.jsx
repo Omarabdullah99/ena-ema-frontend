@@ -19,6 +19,8 @@ import { ProtectedAdmin } from "./protected/AdminProtected.jsx";
 import AdminProductDetails from "./pages/Admin/AdminProductDetails.jsx";
 import AdminProductForm from "./pages/Admin/AdminProductForm.jsx";
 import AdminOrders from "./pages/Admin/AdminOrder.jsx";
+import WishList from "./pages/WishList.jsx";
+
 
 
 const router = createBrowserRouter([
@@ -55,6 +57,10 @@ const router = createBrowserRouter([
       {
         path:"/my-orders",
         element:<MyOrders />
+      },
+      {
+        path:"/my-wishList",
+        element:<WishList />
       },
 
        //admin path link start

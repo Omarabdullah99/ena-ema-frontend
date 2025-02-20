@@ -2,51 +2,34 @@ import React, { useState, Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Link, Navigate } from "react-router-dom";
-import {
-
-  deleteCartItemAsync,
-  selectedCartItemByUserId,
-  selectedCartStatus,
-  updateCartItemAsync,
-} from "../redux/features/CartSlice";
 import Modal from "../common/Modal";
+import {
+  selectedUserWishList,
+  selectedWishListStatus,
+  deleteWishListAsync,
+} from "../redux/features/WishListSlice";
 
-
-
-export default function Cart() {
+export default function WishList() {
   const dispatch = useDispatch();
-  const products = useSelector(selectedCartItemByUserId);
-  // console.log('user add to cart', products)
-  const cartStatus = useSelector(selectedCartStatus);
-  // console.log("cartstaus", cartStatus);
-  const totalAmount = products?.reduce(
-    (amount, item) => item?.product?.price * item.quantity + amount,
-    0
-  );
- 
-  const totalItems = products?.reduce(
-    (total, item) => item.quantity + total,
-    0
-  );
+  const wishProduct = useSelector(selectedUserWishList);
+  // console.log("wishproudct", wishProduct);
+
+
+  const wishListStatus = useSelector(selectedWishListStatus);
+
+  
   const [open, setOpen] = useState(true);
   const [openModal, setOpenModal] = useState(null);
 
-  const handleQuantity = (e, product) => {
-    // console.log('product',product)
-    e.preventDefault();
-    const quantity = Number(e.target.value);
-    // console.log('value', e.target.value)
-    dispatch(updateCartItemAsync({ id: product._id, quantity}));
-    
+
+
+  const handleRemove = (wishListId) => {
+    console.log("delete wish list id", wishListId);
+    dispatch(deleteWishListAsync(wishListId));
+    setOpenModal(null);
   };
 
-  const handleRemove = ( id) => {
-    console.log('delete cart id', id)
-    dispatch(deleteCartItemAsync(id));
-    setOpenModal(null)
-  };
-
-  if (cartStatus == "loading") {
+  if (wishListStatus == "loading") {
     return (
       <div>
         <h1>Loading....</h1>
@@ -56,17 +39,17 @@ export default function Cart() {
 
   return (
     <>
-      {!products?.length && <Navigate to={"/"} replace="true"></Navigate>}
+      {!wishProduct?.length && <Navigate to={"/"} replace="true"></Navigate>}
       <div>
         <div className="mx-auto mt-12 bg-white max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
             <h1 className="text-4xl my-5 font-bold tracking-tight text-gray-900">
-              Cart
+              WishList
             </h1>
             <div className="flow-root">
               <ul role="list" className="-my-6 divide-y divide-gray-200">
-                {products?.map((product) => (
-                  <li key={product._id} className="flex py-6">
+                {wishProduct?.map((product) => (
+                  <li key={product?._id} className="flex py-6">
                     <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                       <img
                         src={product?.product?.thumbnail}
@@ -88,24 +71,9 @@ export default function Cart() {
                         </p>
                       </div>
                       <div className="flex flex-1 items-end justify-between text-sm">
-                        <div className="text-gray-500">
-                          <label
-                            htmlFor="quantity"
-                            className="inline mr-5 text-sm font-medium leading-6 text-gray-900"
-                          >
-                            Qty
-                          </label>
-                          <select
-                            onChange={(e) => handleQuantity(e, product)}
-                            value={product?.quantity}
-                          >
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                          </select>
-                        </div>
+                        <p className="mt-1 text-lg text-black">
+                          {product?.product?.category}
+                        </p>
 
                         <div className="flex">
                           <Modal
@@ -136,28 +104,8 @@ export default function Cart() {
           </div>
 
           <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
-            <div className="flex justify-between text-base font-medium text-gray-900">
-              <p>Subtotal</p>
-              <p>${totalAmount}</p>
-            </div>
-            <div className="flex justify-between text-base my-3 font-medium text-gray-900">
-              <p>Total Items in Cart</p>
-              <p>{totalItems} items</p>
-            </div>
-            <p className="mt-0.5 text-sm text-gray-500">
-              Shipping and taxes calculated at checkout.
-            </p>
-            <div className="mt-6">
-              <Link
-                to="/checkout"
-                className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
-              >
-                Checkout
-              </Link>
-            </div>
             <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
               <p>
-                or
                 <Link to="/">
                   <button
                     type="button"
@@ -173,7 +121,6 @@ export default function Cart() {
           </div>
         </div>
       </div>
-
     </>
   );
 }

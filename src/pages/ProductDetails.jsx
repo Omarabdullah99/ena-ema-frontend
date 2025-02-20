@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { Radio, RadioGroup } from "@headlessui/react";
-import { fetchProductByIdAsync, selectedProduct } from "../redux/features/ProductSlice";
+import {
+  fetchProductByIdAsync,
+  selectedProduct,
+} from "../redux/features/ProductSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { selectLoggedInUser } from "../redux/features/UserSlice";
 
 import { toast } from "react-toastify";
-import { createCartByAsync, selectedCartItemByUserId } from "../redux/features/CartSlice";
-
-
-
-
-
-
+import {
+  createCartByAsync,
+  selectedCartItemByUserId,
+} from "../redux/features/CartSlice";
+import {
+  createWishListAsync,
+  selectedUserWishList,
+} from "../redux/features/WishListSlice";
 
 const highlights = [
   "Hand cut and sewn locally",
@@ -29,13 +33,14 @@ const ProductDetails = () => {
   const params = useParams();
   const dispatch = useDispatch();
   const user = useSelector(selectLoggedInUser);
-  console.log('details user',user)
+  console.log("details user", user);
   useEffect(() => {
     dispatch(fetchProductByIdAsync(params?.id));
   }, [dispatch, params?.id]);
 
   const productById = useSelector(selectedProduct);
   const selectedCardByUserId = useSelector(selectedCartItemByUserId);
+  const selectWishListByUserId = useSelector(selectedUserWishList);
   // console.log('product cart check',selectedCardByUserId)
   if (!productById) {
     return (
@@ -48,7 +53,7 @@ const ProductDetails = () => {
   }
 
   const product = productById;
-  console.log('detil product',product)
+  console.log("detil product", product);
 
   const handleCart = (e) => {
     e.preventDefault();
@@ -64,6 +69,27 @@ const ProductDetails = () => {
       );
       //this message will provide backend
       toast.success("Cart Add Successfully!"); // সফল ম্যাসেজ
+    } else {
+      //this message will provide backend
+      toast.error("This item already added!");
+    }
+  };
+
+  const handleWishList = (e) => {
+    e.preventDefault();
+    if (
+      selectWishListByUserId.findIndex(
+        (item) => item.productId === product._id
+      ) < 0
+    ) {
+      dispatch(
+        createWishListAsync({
+          productId: product._id,
+          userId: user?.result?._id,
+        })
+      );
+      //this message will provide backend
+      toast.success("WishList Add Successfully!"); // সফল ম্যাসেজ
     } else {
       //this message will provide backend
       toast.error("This item already added!");
@@ -116,23 +142,34 @@ const ProductDetails = () => {
             <div className="mt-4 lg:row-span-3 lg:mt-0">
               <h2 className="sr-only">Product information</h2>
               <p className="text-xl tracking-tight   text-gray-900">
-                {product?.price}
-              </p>
-              <p className="text-3xl tracking-tight text-gray-900">
-                stock available hobe
+                ${product?.price}
               </p>
 
               <form className="mt-10">
-           
-
                 {user?.result?._id ? (
-                  <button
-                    type="submit"
-                    className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                    onClick={handleCart}
-                  >
-                    Add To Cart
-                  </button>
+                  <div>
+                    {product?.stock >0 ? (
+                      <button
+                        type="submit"
+                        className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                        onClick={handleCart}
+                      >
+                        Add To Cart
+                      </button>
+                    ) : (
+                      <h2 className="text-center text-3xl text-red-400">
+                        Out of Stock
+                      </h2>
+                    )}
+
+                    <button
+                      type="submit"
+                      className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                      onClick={handleWishList}
+                    >
+                      WishList
+                    </button>
+                  </div>
                 ) : (
                   <Link to={"/login"}>
                     <button

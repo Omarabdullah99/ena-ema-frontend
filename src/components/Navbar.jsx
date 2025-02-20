@@ -24,6 +24,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {fetchUserByIdAsync, selectedUserDetails, selectLoggedInUser, setLogout } from "../redux/features/UserSlice";
 import { getCartItemByUserIdAsync, selectedCartItemByUserId } from "../redux/features/CartSlice";
 import { fetchAllOrdersAsync, selectAllOrders } from "../redux/features/OrderSlice";
+import { fetchWishListByUserIdAsync, selectedUserWishList } from "../redux/features/WishListSlice";
 const user = {
   name: "Tom Cook",
   email: "tom@example.com",
@@ -46,6 +47,8 @@ const Navbar = ({ children }) => {
   // console.log('navbar orders',orders)
 
   const selectedCartItem = useSelector(selectedCartItemByUserId);
+  const selectedUserIdWishList=useSelector(selectedUserWishList)
+  // console.log('navbar wish list',selectedUserIdWishList)
   // console.log('navbar cartitem',selectedCartItem)
   const dispatch = useDispatch();
 
@@ -61,6 +64,12 @@ const Navbar = ({ children }) => {
     }
   }, [users?.result?._id]);
 
+  useEffect(() => {
+    if (users?.result?._id) {
+      dispatch(fetchWishListByUserIdAsync(users?.result?._id));
+    }
+  }, [users?.result?._id]);
+
   useEffect(()=>{
     dispatch(fetchAllOrdersAsync())
   },[dispatch])
@@ -68,13 +77,13 @@ const Navbar = ({ children }) => {
   
 
   const navigation = [
-    { name: "Dashboard", link: "#", user: true },
+    { name: "WishList", link: "/my-wishList", user: true },
     { name: "Team", link: "#", user: true },
     { name: "Admin", link: "/admin", admin: true },
     { name: "Orders", link: "/admin/orders", admin: true },
   ];
   const userNavigation = [
-    { name: "Your Profile", link: "/my-profile" },
+    { name: "Your Profile", link: "" },
     { name: "My Orders", link: "/my-orders" },
     { name: "Sign out", link: "/logout" },
   ];

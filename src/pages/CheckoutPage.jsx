@@ -23,7 +23,7 @@ import Modal from "../common/Modal";
 function Checkout() {
   const dispatch = useDispatch();
   const products = useSelector(selectedCartItemByUserId);
-  console.log('cart item by userid',products)
+  // console.log('cart item by userid',products)
   // console.log('item', products)
  
 
@@ -47,9 +47,9 @@ function Checkout() {
   const [openModal, setOpenModal] = useState(null);
 
   const user = useSelector(selectLoggedInUser);
-  console.log('Login user',user)
+  // console.log('Login user',user)
   const userDetailsById=useSelector(selectedUserDetails)
-  console.log('userByIdDetails',userDetailsById)
+  // console.log('userByIdDetails',userDetailsById)
   const currentOrder=useSelector(selectCurrentOrder)
   // console.log('currentOrder checkoutpage.jsx',currentOrder)
 
@@ -256,7 +256,7 @@ function Checkout() {
                 <div className="flow-root">
                   <ul role="list" className="-my-6 divide-y divide-gray-200">
                     {products?.map((product) => (
-                      <li key={product.id} className="flex py-6">
+                      <li key={product._id} className="flex py-6">
                         <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                           <img
                             src={product?.product?.thumbnail}

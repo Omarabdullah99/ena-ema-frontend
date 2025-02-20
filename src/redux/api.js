@@ -74,4 +74,9 @@ export const fetchAllOrders=(pagination)=>{
 
 export const updateOrder=(order)=>API.patch(`/order/updateOrderById/${order._id}`,order)
 
+//wishList related api
+export const createWishList=(data)=> API.post('/wishList/createWishList',data)
+export const getWishListByUserId=(userId)=>API.get(`/wishList/wishListByUserId/${userId}`)
+export const deleteWishListById=(wishListId)=>API.delete(`/wishList/deleteWishList/${wishListId}`)
+
 
