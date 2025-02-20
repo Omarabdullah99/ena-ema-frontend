@@ -352,7 +352,7 @@ const AdminProducList = () => {
                         <div>
                           <Link
                             to={`/adminproductdetails/${product?._id}`}
-                            key={product?.id}
+                            key={product?._id}
                           >
                             <div className="group relative border-solid border-2 p-2 border-gray-200">
                               <div className="min-h-60 aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-60">
@@ -374,7 +374,7 @@ const AdminProducList = () => {
                                   <p className="mt-1 text-sm text-gray-500">
                                     <StarIcon className="w-6 h-6 inline"></StarIcon>
                                     <span className=" align-bottom">
-                                      {product.rating}
+                                      {product?.rating}
                                     </span>
                                   </p>
                                 </div>
@@ -382,9 +382,9 @@ const AdminProducList = () => {
                                   <p className="text-sm block font-medium text-black">
                                     ${product.price}
                                   </p>
-                                  <p className="text-sm block  font-medium text-green-400">
-                                    stock:{product.stock}
-                                  </p>
+                                  
+                                    {product?.stock >0 ? <h1 className="text-sm block  font-medium text-green-400">stock:{product?.stock}</h1>: <h1 className="text-red-400">Out of stock</h1>}
+                                  
                                 </div>
                               </div>
                             </div>

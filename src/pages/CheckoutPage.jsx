@@ -101,7 +101,7 @@ function Checkout() {
   // console.log("paymentmethod",paymentMethod)
   return (
     <>
-      {!products?.length && <Navigate to={"/"} replace="true"></Navigate>}
+      {!products?.length && <h1 className="text-3xl text-red-300 text-center font-bold">No Data Add</h1>}
       {currentOrder && <Navigate to={`/order-success/${currentOrder._id}`} replace={true}></Navigate>}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-5">

@@ -110,7 +110,7 @@ const Navbar = ({ children }) => {
                   <Link to={"/"}>
                     <img
                       alt="Your Company"
-                      src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                      src="https://png.pngtree.com/png-vector/20220207/ourmid/pngtree-e-letter-logo-ecommerce-shop-store-design-png-image_4381099.png"
                       className="h-8 w-8"
                     />
                   </Link>
