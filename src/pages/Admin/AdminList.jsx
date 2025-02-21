@@ -131,13 +131,7 @@ const AdminProducList = () => {
     setPage(1);
   }, [totalItems, sort]);
 
-  if (productStatus == 'loading') {
-    return (
-      <div >
-       <h1 className="text-6xl">Loading</h1>
-      </div>
-    ); // ডেটা ফেচ হওয়ার সময় লোডিং মেসেজ দেখান
-  }
+  
 
    const handleRemove = ( id) => {
       console.log('id', id)
